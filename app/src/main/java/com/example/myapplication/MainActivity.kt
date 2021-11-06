@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import kotlin.reflect.KProperty1
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("Range")
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         DBServer.register(User())
 
         server.delete {
-            return@delete User::name.name equal "wwww"
+            return@delete User::name equal "wwww11"
         }
         server.insert<User> {
             it.name = "wwww11"
@@ -28,11 +29,15 @@ class MainActivity : AppCompatActivity() {
         server.commit()
 
         val user = server.select<User> {
-            return@select User::age.name less 10 limit 1
+            return@select User::name equal "wwww11" limit 1
         }
         Log.v("sdf", "${user?.count()}")
         Log.v("sdf", "${user?.last()?.name}")
         Log.v("sdf", "${user?.last()?.age}")
+
+
+        var b = User::name equal "sdf" and User::age equal 100 limit 10
+        Log.v("con", "${b.con}")
 
     }
 
